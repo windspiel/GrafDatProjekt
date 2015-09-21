@@ -74,16 +74,24 @@ namespace Tabletop_0._1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
-
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+
+            //3d Elements
             robo.draw(graphics, new Vector3 (0,0,0));
 
-            maus.Draw(spriteBatch, LeftButton);
-            
-            base.Draw(gameTime);
 
+            // Gui und 2d Elemente
+            spriteBatch.Begin();
+            maus.Draw(spriteBatch, LeftButton);
             spriteBatch.End();
+
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
+
+            base.Draw(gameTime);
         }
     }
 }
