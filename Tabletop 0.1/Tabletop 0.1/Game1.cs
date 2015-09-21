@@ -13,6 +13,7 @@ namespace Tabletop_0._1
         SpriteBatch spriteBatch;
 
         Roboter robo= new Roboter();
+        MouseCursor maus = new MouseCursor();
 
         public Game1()
             : base()
@@ -32,6 +33,7 @@ namespace Tabletop_0._1
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            maus.Initialize(Content, new Vector2(0, 0));
         }
 
 
@@ -58,7 +60,8 @@ namespace Tabletop_0._1
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            MouseState currentMouseState = Mouse.GetState();
+            maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
             base.Update(gameTime);
         }
 
@@ -67,10 +70,14 @@ namespace Tabletop_0._1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
 
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            maus.Draw(spriteBatch, false);
             robo.draw(graphics);
             base.Draw(gameTime);
+
+            spriteBatch.End();
         }
     }
 }

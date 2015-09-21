@@ -41,6 +41,7 @@
     <Compile Include="Figuren\GameElement.cs" />
     <Compile Include="Figuren\Roboter.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Figuren\MouseCursor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,9 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Grafiken\Maus11.png" />
-    <Content Include="Content\Grafiken\Maus22.png" />
-    <Content Include="Content\Grafiken\Maus33.png" />
+    <Content Include="Content\Grafiken\Maus11.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Grafiken\Maus22.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Grafiken\Maus33.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
