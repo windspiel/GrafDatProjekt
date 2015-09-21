@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{719B90D0-D797-437C-B7E8-65F4360725DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTop", "Test\TableTop.csproj", "{719B90D0-D797-437C-B7E8-65F4360725DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

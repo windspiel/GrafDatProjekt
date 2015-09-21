@@ -1,4 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿/**Dies ist mein GDV Projekt in dem ich ein Spiel entwickle
+ * @author: Johannes
+ * @date: 21.09.2015
+ * @version: 0.1
+ * Ich habe die Klasse umbenannt
+ */
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -7,12 +13,12 @@ namespace Test
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Game
+    public class TableTop : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public Game1()
+        public TableTop()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -60,8 +66,8 @@ namespace Test
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
 
             // TODO: Add your update logic here
 
