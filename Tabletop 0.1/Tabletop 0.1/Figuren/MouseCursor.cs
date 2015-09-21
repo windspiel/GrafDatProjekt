@@ -27,9 +27,9 @@ namespace Tabletop_0._1.Figuren
                 get { return MouseTexture11.Height; }
             }
 
-            public void Draw(SpriteBatch spriteBatch, Boolean isDragged)
+            public void Draw(SpriteBatch spriteBatch, ButtonState LeftMouse)
             {
-                if (isDragged)
+                if (LeftMouse == ButtonState.Pressed)
                 {
                     spriteBatch.Draw(MouseTexture22, Position, null, Color.White, 0f, Vector2.Zero, 1f,
                      SpriteEffects.None, 0f);

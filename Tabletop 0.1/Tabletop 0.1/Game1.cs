@@ -11,7 +11,7 @@ namespace Tabletop_0._1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        ButtonState LeftButton;
         Roboter robo= new Roboter();
         MouseCursor maus = new MouseCursor();
 
@@ -58,9 +58,13 @@ namespace Tabletop_0._1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
             MouseState currentMouseState = Mouse.GetState();
+            LeftButton = currentMouseState.LeftButton;
+
+            
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
             base.Update(gameTime);
         }
@@ -73,8 +77,10 @@ namespace Tabletop_0._1
             spriteBatch.Begin();
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            maus.Draw(spriteBatch, false);
-            robo.draw(graphics);
+            robo.draw(graphics, new Vector3 (0,0,0));
+
+            maus.Draw(spriteBatch, LeftButton);
+            
             base.Draw(gameTime);
 
             spriteBatch.End();
