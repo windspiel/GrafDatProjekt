@@ -17,9 +17,8 @@ namespace Tabletop_0._1.Figuren
         Vector3 modelPosition;
         public void load(ContentManager Content, String xnb_Name)
         {
-            model = Content.Load<Model>(xnb_Name);
+            model = Content.Load<Model>("Modelle/"+xnb_Name);
         }
-
 
         public void draw(GraphicsDeviceManager graphics)
         {
@@ -75,6 +74,11 @@ namespace Tabletop_0._1.Figuren
                 // draw the entire mesh
                 mesh.Draw();
             }
+        }
+        public Vector3 position
+        {
+            get { return modelPosition; }
+            set { modelPosition = value; }
         }
     }
 }

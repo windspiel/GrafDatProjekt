@@ -12,14 +12,9 @@ namespace Tabletop_0._1.Figuren
 {
     class Roboter : GameElement
     {
-
         public void load(ContentManager Content)
         {
             load(Content, "robot");
         }
-
     }
-
-
-
 }
