@@ -69,7 +69,7 @@ namespace Test
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             //    Exit();
 
-            // TODO: Add your update logic here
+            // TODO: Add your update logic here Disney abend wird toll
 
             base.Update(gameTime);
         }
