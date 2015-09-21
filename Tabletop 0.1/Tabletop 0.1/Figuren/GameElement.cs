@@ -8,15 +8,19 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace Tabletop_0._1.Figuren
 {
-    class Roboter
+    class GameElement
     {
         Model model;
-        public void load(ContentManager Content)
+        Vector3 modelPosition;
+        public void load(ContentManager Content, String xnb_Name)
         {
-            model = Content.Load<Model>("robot");
+            model = Content.Load<Model>(xnb_Name);
         }
+
+
         public void draw(GraphicsDeviceManager graphics)
         {
             foreach (var mesh in model.Meshes)
@@ -36,6 +40,10 @@ namespace Tabletop_0._1.Figuren
                     // its size is unchanged from the loaded content file.
                     effect.World = Matrix.Identity;
 
+
+                    /*
+                     * hat hierdrin nix zu suchen oder??? 
+                     */
                     // Move the camera 8 units away from the origin:
                     var cameraPosition = new Vector3(0, 8, 0);
                     // Tell the camera to look at the origin:
@@ -69,7 +77,4 @@ namespace Tabletop_0._1.Figuren
             }
         }
     }
-
-
-
 }
