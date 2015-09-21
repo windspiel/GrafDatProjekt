@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Tabletop_0._1.Figuren;
 
 namespace Tabletop_0._1
 {
@@ -11,6 +12,8 @@ namespace Tabletop_0._1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        Roboter robo= new Roboter();
 
         public Game1()
             : base()
@@ -40,6 +43,7 @@ namespace Tabletop_0._1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            robo.load(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -77,7 +81,7 @@ namespace Tabletop_0._1
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            robo.draw(graphics);
             base.Draw(gameTime);
         }
     }
