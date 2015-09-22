@@ -38,7 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Content\Meshes\Plane.cs" />
+    <Compile Include="Content\Meshes\Table.cs" />
     <Compile Include="Figuren\GameElement.cs" />
     <Compile Include="Figuren\Roboter.cs" />
     <Compile Include="Game1.cs" />
@@ -61,6 +61,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Grafiken\Maus33.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Grafiken\Waben.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />

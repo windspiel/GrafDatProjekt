@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
+//own namespaces
 using Tabletop_0._1.Figuren;
+using Tabletop_0._1.Content.Meshes;
 
 namespace Tabletop_0._1
 {
@@ -14,6 +17,7 @@ namespace Tabletop_0._1
         ButtonState LeftButton;
         Roboter robo= new Roboter();
         MouseCursor maus = new MouseCursor();
+        Table table = new Table();
 
         public Game1()
             : base()
@@ -34,6 +38,7 @@ namespace Tabletop_0._1
 
             base.Initialize();
             maus.Initialize(Content, new Vector2(0, 0));
+            table.Initialize(graphics);
         }
 
 
@@ -42,6 +47,7 @@ namespace Tabletop_0._1
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             robo.load(Content);
+            table.Initialize(graphics);
         }
 
 
@@ -56,6 +62,9 @@ namespace Tabletop_0._1
         /// checking for collisions, gathering input, and playing audio.
 
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        
+ 
+
         protected override void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -76,6 +85,7 @@ namespace Tabletop_0._1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            table.DrawGround(graphics);
 
             //3d Elements
             robo.draw(graphics, new Vector3 (-4,0,0));
@@ -93,5 +103,6 @@ namespace Tabletop_0._1
 
             base.Draw(gameTime);
         }
+
     }
 }
