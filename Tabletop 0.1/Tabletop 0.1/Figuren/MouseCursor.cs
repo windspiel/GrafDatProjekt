@@ -27,17 +27,17 @@ namespace Tabletop_0._1.Figuren
                 get { return MouseTexture11.Height; }
             }
 
-            public void Draw(SpriteBatch spriteBatch, ButtonState LeftMouse)
+            public void Draw(SpriteBatch spriteBatch, ButtonState LeftMouse, Boolean mouseOverSomething)
             {
                 if (LeftMouse == ButtonState.Pressed)
-                {
-                    spriteBatch.Draw(MouseTexture22, Position, null, Color.White, 0f, Vector2.Zero, 1f,
-                     SpriteEffects.None, 0f);
-                }
+                    spriteBatch.Draw(MouseTexture22, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                
                 else
                 {
-                    spriteBatch.Draw(MouseTexture11, Position, null, Color.White, 0f, Vector2.Zero, 1f,
-                       SpriteEffects.None, 0f);
+                    if (mouseOverSomething)
+                        spriteBatch.Draw(MouseTexture33, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    else
+                        spriteBatch.Draw(MouseTexture11, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 }
             }
 

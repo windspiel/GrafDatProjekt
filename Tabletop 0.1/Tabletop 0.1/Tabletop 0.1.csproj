@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Content\Meshes\Plane.cs" />
     <Compile Include="Figuren\GameElement.cs" />
     <Compile Include="Figuren\Roboter.cs" />
     <Compile Include="Game1.cs" />

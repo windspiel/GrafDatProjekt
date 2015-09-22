@@ -78,12 +78,12 @@ namespace Tabletop_0._1
 
 
             //3d Elements
-            robo.draw(graphics, new Vector3 (0,0,0));
+            robo.draw(graphics, new Vector3 (-4,0,0));
 
 
             // Gui und 2d Elemente
             spriteBatch.Begin();
-            maus.Draw(spriteBatch, LeftButton);
+            maus.Draw(spriteBatch, LeftButton, false);
             spriteBatch.End();
 
             GraphicsDevice.BlendState = BlendState.Opaque;
