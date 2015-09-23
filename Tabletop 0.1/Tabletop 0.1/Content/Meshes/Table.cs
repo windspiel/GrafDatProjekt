@@ -23,6 +23,7 @@ namespace Tabletop_0._1.Content.Meshes
     {
         VertexPositionTexture[] bodenVerts;
         BasicEffect effect;
+        Vector3 CameraPosition;
 
         Texture2D tableTexture;
 
@@ -38,16 +39,15 @@ namespace Tabletop_0._1.Content.Meshes
             bodenVerts[4].Position = new Vector3(20, 20, 0);
             bodenVerts[5].Position = bodenVerts[2].Position;
             //Texture
+            int repeat = 20;
 
             bodenVerts[0].TextureCoordinate = new Vector2(0, 0);
-            bodenVerts[1].TextureCoordinate = new Vector2(0, 1);
-            bodenVerts[2].TextureCoordinate = new Vector2(1, 0);
+            bodenVerts[1].TextureCoordinate = new Vector2(0, repeat);
+            bodenVerts[2].TextureCoordinate = new Vector2(repeat, 0);
 
             bodenVerts[3].TextureCoordinate = bodenVerts[1].TextureCoordinate;
-            bodenVerts[4].TextureCoordinate = new Vector2(1, 1);
+            bodenVerts[4].TextureCoordinate = new Vector2(repeat, repeat);
             bodenVerts[5].TextureCoordinate = bodenVerts[2].TextureCoordinate;
-
-
 
             effect = new BasicEffect(graphics.GraphicsDevice);
         }
@@ -62,16 +62,21 @@ namespace Tabletop_0._1.Content.Meshes
             }
         }
 
+        public void update(Vector3 CamPos)
+        {
+            CameraPosition = CamPos;
+        }
+
         public void DrawGround(GraphicsDeviceManager graphics)
         {
             // The assignment of effect.View and effect.Projection
             // are nearly identical to the code in the Model drawing code.
-            var cameraPosition = new Vector3(0, 40, 20);
+            //var cameraPosition = new Vector3(0, 40, 20);
             var cameraLookAtVector = Vector3.Zero;
             var cameraUpVector = Vector3.UnitZ;
 
             effect.View = Matrix.CreateLookAt(
-                cameraPosition, cameraLookAtVector, cameraUpVector);
+                CameraPosition, cameraLookAtVector, cameraUpVector);
 
             float aspectRatio =
                 graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;

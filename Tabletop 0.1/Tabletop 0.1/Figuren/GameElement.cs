@@ -13,11 +13,17 @@ namespace Tabletop_0._1.Figuren
 {
     class GameElement
     {
+
         Model model;
-        Vector3 modelPosition;
+        Vector3 modelPosition, CameraPosition;
         public void load(ContentManager Content, String xnb_Name)
         {
             model = Content.Load<Model>("Modelle/"+xnb_Name);
+        }
+
+        public void update(Vector3 camPos)
+        {
+            CameraPosition = camPos;
         }
 
         public void draw(GraphicsDeviceManager graphics, Vector3 Position)
@@ -30,11 +36,11 @@ namespace Tabletop_0._1.Figuren
                     effect.EnableDefaultLighting();
                     effect.PreferPerPixelLighting = true;
                     effect.World = Matrix.CreateTranslation(modelPosition);
-                    var cameraPosition = new Vector3(0, 10, 0);
+
                     var cameraLookAtVector = Vector3.Zero;
                     var cameraUpVector = Vector3.UnitZ;
                     effect.View = Matrix.CreateLookAt(
-                        cameraPosition, cameraLookAtVector, cameraUpVector);
+                        CameraPosition, cameraLookAtVector, cameraUpVector);
                     float aspectRatio =
                         graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
                     float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;

@@ -15,6 +15,7 @@ namespace Tabletop_0._1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         ButtonState LeftButton;
+        Vector3 cameraPos= new Vector3(0,10,10);
         Roboter robo= new Roboter();
         MouseCursor maus = new MouseCursor();
         Table table = new Table();
@@ -46,8 +47,9 @@ namespace Tabletop_0._1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            //Load a lot of stuff
             robo.load(Content);
-            table.Initialize(graphics);
+            table.Load(this.GraphicsDevice);
         }
 
 
@@ -67,14 +69,18 @@ namespace Tabletop_0._1
 
         protected override void Update(GameTime gameTime)
         {
+            #region:Steuerung
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             MouseState currentMouseState = Mouse.GetState();
             LeftButton = currentMouseState.LeftButton;
-
-            
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
+            #endregion
+            #region: DrawUpdates
+            robo.update(cameraPos);
+            table.update(cameraPos);
+            #endregion
             base.Update(gameTime);
         }
 
@@ -85,10 +91,16 @@ namespace Tabletop_0._1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            table.DrawGround(graphics);
+
 
             //3d Elements
-            robo.draw(graphics, new Vector3 (-4,0,0));
+            table.DrawGround(graphics);
+
+            robo.draw(graphics, new Vector3 (-4,0,3));
+            robo.draw(graphics, new Vector3(0, 0, 3));
+            robo.draw(graphics, new Vector3(4, 0, 3));
+            robo.draw(graphics, new Vector3(-4, 4, 3));
+            robo.draw(graphics, new Vector3(0, 4, 3));
 
 
             // Gui und 2d Elemente
