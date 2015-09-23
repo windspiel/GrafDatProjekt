@@ -24,6 +24,7 @@ namespace Tabletop_0._1.Content.Meshes
         VertexPositionTexture[] bodenVerts;
         BasicEffect effect;
         Vector3 CameraPosition;
+       
 
         Texture2D tableTexture;
 

@@ -12,13 +12,17 @@ namespace Tabletop_0._1
     /// This is the main type for your game
     public class Game1 : Game
     {
+        #region: Globals
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         ButtonState LeftButton;
-        Vector3 cameraPos= new Vector3(0,10,10);
+
+        Vector3 cameraPos= new Vector3(15,10,10);
+
         Roboter robo= new Roboter();
-        MouseCursor maus = new MouseCursor();
         Table table = new Table();
+        MouseCursor maus = new MouseCursor();
+        #endregion
 
         public Game1()
             : base()
@@ -78,7 +82,7 @@ namespace Tabletop_0._1
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
             #endregion
             #region: DrawUpdates
-            robo.update(cameraPos);
+            robo.update(cameraPos, 0.0f, gameTime);
             table.update(cameraPos);
             #endregion
             base.Update(gameTime);
@@ -96,11 +100,8 @@ namespace Tabletop_0._1
             //3d Elements
             table.DrawGround(graphics);
 
-            robo.draw(graphics, new Vector3 (-4,0,3));
-            robo.draw(graphics, new Vector3(0, 0, 3));
-            robo.draw(graphics, new Vector3(4, 0, 3));
-            robo.draw(graphics, new Vector3(-4, 4, 3));
-            robo.draw(graphics, new Vector3(0, 4, 3));
+            robo.draw(graphics, new Vector3 (0,0,0));
+
 
 
             // Gui und 2d Elemente
