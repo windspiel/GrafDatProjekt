@@ -10,11 +10,11 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tabletop_0._1.Figuren
 {
-    class Roboter : GameElement
+    class SturmEH: GameElement 
     {
         public void load(ContentManager Content)
         {
-            load(Content, "robo");
+            load(Content, "spacmarine","Rot");
         }
     }
 }

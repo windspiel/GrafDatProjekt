@@ -41,6 +41,7 @@
     <Compile Include="Content\Meshes\Table.cs" />
     <Compile Include="Figuren\GameElement.cs" />
     <Compile Include="Figuren\Roboter.cs" />
+    <Compile Include="Figuren\SturmEH.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Figuren\MouseCursor.cs" />
     <Compile Include="Program.cs" />
@@ -54,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Grafiken\Blau.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Grafiken\Maus11.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -61,6 +65,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Grafiken\Maus33.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Grafiken\Rot.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Grafiken\Waben.png">
@@ -76,6 +83,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Content\Modelle\robottexture_0.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Modelle\spacmarine.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

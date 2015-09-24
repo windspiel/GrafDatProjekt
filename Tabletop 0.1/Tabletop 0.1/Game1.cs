@@ -19,7 +19,7 @@ namespace Tabletop_0._1
 
         Vector3 cameraPos= new Vector3(15,10,10);
 
-        Roboter robo= new Roboter();
+        SturmEH robo= new SturmEH();
         Table table = new Table();
         MouseCursor maus = new MouseCursor();
         #endregion
@@ -29,7 +29,7 @@ namespace Tabletop_0._1
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.PreferredBackBufferWidth = 1920;
         }
