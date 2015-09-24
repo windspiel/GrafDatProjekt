@@ -1,0 +1,5 @@
+punkt 1 kamera coordinate (stützvector) 
+punkt 2 Mauskoordinate + entfernung zum kammera punkt (streckvector)
+
+bounding box/sphere 
+
