@@ -71,8 +71,8 @@ namespace Tabletop_0._1.Figuren
                             fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
 
 
-                        effect.TextureEnabled = true;
-                        effect.Texture = texture;
+                        //effect.TextureEnabled = true;
+                        //effect.Texture = texture;
                     }
                     // Now that we've assigned our properties on the effects we can
                     // draw the entire mesh

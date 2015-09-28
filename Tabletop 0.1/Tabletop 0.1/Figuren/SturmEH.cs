@@ -14,7 +14,7 @@ namespace Tabletop_0._1.Figuren
     {
         public void load(ContentManager Content)
         {
-            load(Content, "spacmarine","Rot");
+            load(Content, "MarieneVorab");
         }
     }
 }
