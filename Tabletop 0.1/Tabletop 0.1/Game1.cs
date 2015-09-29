@@ -3,8 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 //own namespaces
-using Tabletop_0._1.Figuren;
-using Tabletop_0._1.Content.Meshes;
+using Tabletop_0._1.GameElements;
+using Tabletop_0._1.Content.GameElements;
+using Tabletop_0._1.LogikElement;
 
 namespace Tabletop_0._1
 {
@@ -17,11 +18,17 @@ namespace Tabletop_0._1
         SpriteBatch spriteBatch;
         ButtonState LeftButton;
 
-        Vector3 cameraPos= new Vector3(15,10,10);
-
         SturmEH robo= new SturmEH();
         Table table = new Table();
         MouseCursor maus = new MouseCursor();
+
+        Camera camera = new Camera();
+
+        private Vector3 cameraPos
+        {
+            get { return camera.cameraPosition; }
+            set { camera.cameraPosition = value; }
+        }
         #endregion
 
         public Game1()
@@ -42,11 +49,12 @@ namespace Tabletop_0._1
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+
 
             base.Initialize();
             maus.Initialize(Content, new Vector2(0, 0));
             table.Initialize(graphics);
+            camera.initial(graphics);
         }
 
 
@@ -57,6 +65,7 @@ namespace Tabletop_0._1
             //Load a lot of stuff
             robo.load(Content);
             table.Load(this.GraphicsDevice);
+            
         }
 
 

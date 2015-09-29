@@ -3,21 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-
-
-//using Microsoft.Xna.Framework.Graphics.VertexPositionColor;
-//using Microsoft.Xna.Framework.Graphics.VertexPositionColorTexture;
-//using Microsoft.Xna.Framework.Graphics.VertexPositionNormalTexture;
-//using Microsoft.Xna.Framework.Graphics.VertexPositionTexture;
-
-
-namespace Tabletop_0._1.Content.Meshes
+namespace Tabletop_0._1.Content.GameElements
 {
     class Table
     {

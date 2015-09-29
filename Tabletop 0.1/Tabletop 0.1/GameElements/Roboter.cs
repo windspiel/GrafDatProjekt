@@ -8,13 +8,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Tabletop_0._1.Figuren
+namespace Tabletop_0._1.GameElements
 {
-    class SturmEH: GameElement 
+    class Roboter : LoadedModel
     {
         public void load(ContentManager Content)
         {
-            load(Content, "MarieneVorab");
+            load(Content, "robo");
         }
     }
 }

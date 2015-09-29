@@ -9,13 +9,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 
-namespace Tabletop_0._1.Figuren
+namespace Tabletop_0._1.GameElements
 {
 
-    class GameElement
+    class LoadedModel
     {
         Model model;
-
         Vector3 modelPosition;
       
         float angle;
