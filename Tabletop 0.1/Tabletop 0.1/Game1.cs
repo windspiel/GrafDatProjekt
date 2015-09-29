@@ -85,7 +85,7 @@ namespace Tabletop_0._1
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
             #endregion
             #region: DrawUpdates
-            robo.update(cameraPos, 0.0f, gameTime);
+            robo.update( 0.0f, gameTime);
             table.update(cameraPos);
             #endregion
             base.Update(gameTime);
@@ -103,7 +103,7 @@ namespace Tabletop_0._1
             //3d Elements
             table.DrawGround(graphics);
 
-            robo.draw(graphics, new Vector3 (0,0,0));
+            robo.draw(cameraPos, graphics, new Vector3 (0,0,0));
 
 
 

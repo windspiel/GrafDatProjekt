@@ -15,9 +15,8 @@ namespace Tabletop_0._1.Figuren
     class GameElement
     {
         Model model;
-        Texture2D texture; 
 
-        Vector3 modelPosition, CameraPosition;
+        Vector3 modelPosition;
       
         float angle;
 
@@ -26,19 +25,12 @@ namespace Tabletop_0._1.Figuren
             model = Content.Load<Model>("Modelle/"+xnb_Name);
         }
 
-        public void load(ContentManager Content, String xnb_Name, String texture_Name)
-        {
-            model = Content.Load<Model>("Modelle/" + xnb_Name);
-            texture = Content.Load<Texture2D>("Grafiken/" + texture_Name);
-        }
-
-        public void update(Vector3 camPos, float aspectRatio, GameTime gameTime)
+        public void update(float aspectRatio, GameTime gameTime)
         {
             angle += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            CameraPosition = camPos;
         }
 
-        public void draw(GraphicsDeviceManager graphics, Vector3 Position)
+        public void draw(Vector3 camPos, GraphicsDeviceManager graphics, Vector3 Position)
         {
             modelPosition = Position;
 
@@ -59,7 +51,7 @@ namespace Tabletop_0._1.Figuren
                         var cameraUpVector = Vector3.UnitZ;
 
                         effect.View = Matrix.CreateLookAt(
-                            CameraPosition, cameraLookAtVector, cameraUpVector);
+                            camPos, cameraLookAtVector, cameraUpVector);
 
                         float aspectRatio = graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
 
@@ -70,12 +62,7 @@ namespace Tabletop_0._1.Figuren
                         effect.Projection = Matrix.CreatePerspectiveFieldOfView(
                             fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
 
-
-                        //effect.TextureEnabled = true;
-                        //effect.Texture = texture;
                     }
-                    // Now that we've assigned our properties on the effects we can
-                    // draw the entire mesh
                     mesh.Draw();
                 }
             
@@ -87,6 +74,12 @@ namespace Tabletop_0._1.Figuren
             get { return modelPosition; }
             set { modelPosition = value; }
         }
+        public Model boundingBox
+        {
+            get { return null; }
+        }
+        
+
         Matrix GetWorldMatrix()
         {
             const float circleRadius = 8;
