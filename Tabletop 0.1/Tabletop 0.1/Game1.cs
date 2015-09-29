@@ -94,7 +94,7 @@ namespace Tabletop_0._1
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
             #endregion
             #region: DrawUpdates
-            robo.update( 0.0f, gameTime);
+            robo.update(gameTime);
             table.update(cameraPos);
             #endregion
             base.Update(gameTime);
@@ -118,7 +118,7 @@ namespace Tabletop_0._1
 
             // Gui und 2d Elemente
             spriteBatch.Begin();
-            maus.Draw(spriteBatch, LeftButton, false);
+            maus.Draw(spriteBatch, LeftButton, PickingCheck(robo));
             spriteBatch.End();
 
             GraphicsDevice.BlendState = BlendState.Opaque;
@@ -127,6 +127,20 @@ namespace Tabletop_0._1
 
 
             base.Draw(gameTime);
+        }
+
+        bool PickingCheck(SturmEH myModel )
+        {
+            //mouseray rausholen fuer evtl sichterkennung bei deckung
+            Ray ray = maus.MouseRay(camera.View(), camera.Projection(), (Viewport)this.GraphicsDevice.Viewport);
+            foreach (var mesh in myModel.model.Meshes)
+            {
+                BoundingSphere b = mesh.BoundingSphere;
+                b = b.Transform(myModel.GetWorldMatrix());
+                if(ray.Intersects(b)==0.0f)
+                return true;
+            }
+            return false;
         }
 
     }

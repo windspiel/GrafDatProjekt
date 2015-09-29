@@ -16,7 +16,6 @@ namespace Tabletop_0._1.Content.GameElements
         BasicEffect effect;
         Vector3 CameraPosition;
        
-
         Texture2D tableTexture;
 
         public void Initialize(GraphicsDeviceManager graphics)

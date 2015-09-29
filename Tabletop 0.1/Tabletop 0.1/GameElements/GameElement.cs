@@ -11,12 +11,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tabletop_0._1.GameElements
 {
-
-    class LoadedModel
+    class GameElements
     {
-        Model model;
-        Vector3 modelPosition;
-      
+        public Model model;      
         float angle;
 
         public void load(ContentManager Content, String xnb_Name)
@@ -24,78 +21,52 @@ namespace Tabletop_0._1.GameElements
             model = Content.Load<Model>("Modelle/"+xnb_Name);
         }
 
-        public void update(float aspectRatio, GameTime gameTime)
+        public void update( GameTime gameTime)
         {
             angle += (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         public void draw(Vector3 camPos, GraphicsDeviceManager graphics, Vector3 Position)
         {
-            modelPosition = Position;
-
-                foreach (var mesh in model.Meshes)
+            foreach (var mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
                 {
-                    foreach (BasicEffect effect in mesh.Effects)
-                    {
-                        effect.EnableDefaultLighting();
-                        effect.PreferPerPixelLighting = true;
+                    effect.EnableDefaultLighting();
+                    effect.PreferPerPixelLighting = true;
 
-                        effect.World = GetWorldMatrix();
+                    effect.World = GetWorldMatrix();
 
+                    //effect.World = Matrix.CreateTranslation(modelPosition);
 
+                    var cameraLookAtVector = Vector3.Zero;
+                    var cameraUpVector = Vector3.UnitZ;
 
-                        //effect.World = Matrix.CreateTranslation(modelPosition);
+                    effect.View = Matrix.CreateLookAt(
+                        camPos, cameraLookAtVector, cameraUpVector);
 
-                        var cameraLookAtVector = Vector3.Zero;
-                        var cameraUpVector = Vector3.UnitZ;
+                    float aspectRatio = graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
 
-                        effect.View = Matrix.CreateLookAt(
-                            camPos, cameraLookAtVector, cameraUpVector);
+                    float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
+                    float nearClipPlane = 1;
+                    float farClipPlane = 200;
 
-                        float aspectRatio = graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
-
-                        float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
-                        float nearClipPlane = 1;
-                        float farClipPlane = 200;
-
-                        effect.Projection = Matrix.CreatePerspectiveFieldOfView(
-                            fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
-
-                    }
-                    mesh.Draw();
+                    effect.Projection = Matrix.CreatePerspectiveFieldOfView(
+                        fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
                 }
-            
+                mesh.Draw();
+            }
         }
 
-
-        public Vector3 position
+        public Matrix GetWorldMatrix()
         {
-            get { return modelPosition; }
-            set { modelPosition = value; }
-        }
-        public Model boundingBox
-        {
-            get { return null; }
-        }
-        
+            const float circleRadius = 0;
+            const float heightOffGround = 0;
 
-        Matrix GetWorldMatrix()
-        {
-            const float circleRadius = 8;
-            const float heightOffGround = 3;
+            Matrix translationMatrix = Matrix.CreateTranslation(circleRadius, 0, heightOffGround);
+            Matrix rotationMatrix = Matrix.CreateRotationZ(-angle);
+            Matrix scaleMatrix = Matrix.CreateScale(0.1f * angle);
 
-            // this matrix moves the model "out" from the origin
-            Matrix translationMatrix = Matrix.CreateTranslation(
-                circleRadius, 0, heightOffGround);
-
-            // this matrix rotates everything around the origin
-            Matrix rotationMatrix = Matrix.CreateRotationZ(angle);
-
-            // this matrix scale the models to the same high
-            
-            Matrix scaleMatrix = Matrix.CreateScale(0.1f);
-
-            // We combine the two to have the model move in a circle:
             Matrix combined = scaleMatrix * translationMatrix * rotationMatrix;
 
             return combined;
