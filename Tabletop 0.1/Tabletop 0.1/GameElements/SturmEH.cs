@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tabletop_0._1.GameElements
 {
-    class SturmEH: GameElements 
+    class SturmEH: GameElement 
     {
-        public void load(ContentManager Content)
+        public override void load(ContentManager Content)
         {
             //load(Content, "robot");
             load(Content, "MarieneVorab");

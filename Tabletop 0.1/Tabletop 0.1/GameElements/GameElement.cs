@@ -13,15 +13,17 @@ using Tabletop_0._1.LogikElement;
 
 namespace Tabletop_0._1.GameElements
 {
-    class GameElements
+    class GameElement
     {
         public Model model;      
         float angle;
+        public float rad;
         private Camera cam;
 
+        public virtual void load(ContentManager Content) { }
         public void load(ContentManager Content, String xnb_Name)
         {
-            model = Content.Load<Model>("Modelle/"+xnb_Name);
+            model = Content.Load<Model>("Modelle/"+ xnb_Name);
         }
 
         public void update( GameTime gameTime, Camera camera)
@@ -30,7 +32,7 @@ namespace Tabletop_0._1.GameElements
             cam = camera;
         }
 
-        public void draw(Vector3 camPos, GraphicsDeviceManager graphics, Vector3 Position)
+        public void draw( )
         {
             foreach (var mesh in model.Meshes)
             {
@@ -47,15 +49,15 @@ namespace Tabletop_0._1.GameElements
                 mesh.Draw();
             }
         }
-
+        
         public Matrix GetWorldMatrix()
         {
-            const float circleRadius = 0;
+            float circleRadius = rad;
             const float heightOffGround = 0;
 
             Matrix translationMatrix = Matrix.CreateTranslation(circleRadius, 0, heightOffGround);
-            Matrix rotationMatrix = Matrix.CreateRotationZ(-angle);
-            Matrix scaleMatrix = Matrix.CreateScale(0.01f * angle);
+            Matrix rotationMatrix = Matrix.CreateRotationZ(0);
+            Matrix scaleMatrix = Matrix.CreateScale(0.03f );
 
             Matrix combined = scaleMatrix * translationMatrix * rotationMatrix;
 

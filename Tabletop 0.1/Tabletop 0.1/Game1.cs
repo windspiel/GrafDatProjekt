@@ -18,7 +18,8 @@ namespace Tabletop_0._1
         SpriteBatch spriteBatch;
         ButtonState LeftButton;
 
-        SturmEH robo= new SturmEH();
+        
+
         Table table = new Table();
         MouseCursor maus = new MouseCursor();
 
@@ -30,6 +31,11 @@ namespace Tabletop_0._1
             set { camera.cameraPosition = value; }
         }
 
+        GameElement[] teamRot = new GameElement[] { new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH() }, 
+            teamBlau;
+
+        //Runden des spiels
+        int Round = 0;
         //string message = "Picking does not work yet.";
         //SpriteFont font;
         #endregion
@@ -66,7 +72,11 @@ namespace Tabletop_0._1
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //Load a lot of stuff
-            robo.load(Content);
+            foreach (GameElement e in teamRot)
+            {
+                e.load(Content);
+            }
+           // robo.load(Content);
             table.Load(this.GraphicsDevice);
 //            font = Content.Load<SpriteFont>("Grafiken/Arial");
             
@@ -98,7 +108,11 @@ namespace Tabletop_0._1
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
             #endregion
             #region: DrawUpdates
-            robo.update(gameTime,camera);
+
+            foreach (GameElement e in teamRot)
+            {
+                e.update(gameTime, camera);
+            }
             table.update(cameraPos);
             #endregion
             base.Update(gameTime);
@@ -115,12 +129,17 @@ namespace Tabletop_0._1
 
             //3d Elements
             table.DrawGround(graphics);
+            for (int i = 0;  i < teamRot.Length; i++)
+            {
+                teamRot[i].rad = i * 2;
+                teamRot[i].draw();
+            }
 
-            robo.draw(cameraPos, graphics, new Vector3 (0,0,0));
 
             // Gui und 2d Elemente
+
             spriteBatch.Begin();
-            maus.Draw(spriteBatch, LeftButton, PickingCheck( robo.model, robo.GetWorldMatrix()));
+            maus.Draw(spriteBatch, LeftButton, CheckAll());
             spriteBatch.End();
 
             //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
@@ -155,6 +174,17 @@ namespace Tabletop_0._1
                 float? distance = mouseRay.Intersects(sphere);
 
                 if (distance != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        bool CheckAll ()
+        {
+            foreach (GameElement e in teamRot)
+            {
+                if (PickingCheck(e.model, e.GetWorldMatrix()))
                 {
                     return true;
                 }
