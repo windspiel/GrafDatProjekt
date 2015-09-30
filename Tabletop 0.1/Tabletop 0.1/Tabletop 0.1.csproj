@@ -73,6 +73,9 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Grafiken\Arial.spritefont">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Modelle\robot.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

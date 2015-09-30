@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Tabletop_0._1.LogikElement;
+
 
 namespace Tabletop_0._1.GameElements
 {
@@ -15,15 +17,17 @@ namespace Tabletop_0._1.GameElements
     {
         public Model model;      
         float angle;
+        private Camera cam;
 
         public void load(ContentManager Content, String xnb_Name)
         {
             model = Content.Load<Model>("Modelle/"+xnb_Name);
         }
 
-        public void update( GameTime gameTime)
+        public void update( GameTime gameTime, Camera camera)
         {
             angle += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            cam = camera;
         }
 
         public void draw(Vector3 camPos, GraphicsDeviceManager graphics, Vector3 Position)
@@ -37,22 +41,8 @@ namespace Tabletop_0._1.GameElements
 
                     effect.World = GetWorldMatrix();
 
-                    //effect.World = Matrix.CreateTranslation(modelPosition);
-
-                    var cameraLookAtVector = Vector3.Zero;
-                    var cameraUpVector = Vector3.UnitZ;
-
-                    effect.View = Matrix.CreateLookAt(
-                        camPos, cameraLookAtVector, cameraUpVector);
-
-                    float aspectRatio = graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
-
-                    float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
-                    float nearClipPlane = 1;
-                    float farClipPlane = 200;
-
-                    effect.Projection = Matrix.CreatePerspectiveFieldOfView(
-                        fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
+                    effect.View = cam.View();
+                    effect.Projection = cam.Projection();
                 }
                 mesh.Draw();
             }
@@ -65,7 +55,7 @@ namespace Tabletop_0._1.GameElements
 
             Matrix translationMatrix = Matrix.CreateTranslation(circleRadius, 0, heightOffGround);
             Matrix rotationMatrix = Matrix.CreateRotationZ(-angle);
-            Matrix scaleMatrix = Matrix.CreateScale(0.1f * angle);
+            Matrix scaleMatrix = Matrix.CreateScale(0.01f * angle);
 
             Matrix combined = scaleMatrix * translationMatrix * rotationMatrix;
 

@@ -29,6 +29,9 @@ namespace Tabletop_0._1
             get { return camera.cameraPosition; }
             set { camera.cameraPosition = value; }
         }
+
+        //string message = "Picking does not work yet.";
+        //SpriteFont font;
         #endregion
 
         public Game1()
@@ -65,6 +68,7 @@ namespace Tabletop_0._1
             //Load a lot of stuff
             robo.load(Content);
             table.Load(this.GraphicsDevice);
+//            font = Content.Load<SpriteFont>("Grafiken/Arial");
             
         }
 
@@ -94,7 +98,7 @@ namespace Tabletop_0._1
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
             #endregion
             #region: DrawUpdates
-            robo.update(gameTime);
+            robo.update(gameTime,camera);
             table.update(cameraPos);
             #endregion
             base.Update(gameTime);
@@ -114,12 +118,14 @@ namespace Tabletop_0._1
 
             robo.draw(cameraPos, graphics, new Vector3 (0,0,0));
 
-
-
             // Gui und 2d Elemente
             spriteBatch.Begin();
-            maus.Draw(spriteBatch, LeftButton, PickingCheck(robo));
+            maus.Draw(spriteBatch, LeftButton, PickingCheck( robo.model, robo.GetWorldMatrix()));
             spriteBatch.End();
+
+            //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            //spriteBatch.DrawString(font, message, new Vector2(100, 100), Color.Black);
+            //spriteBatch.End();
 
             GraphicsDevice.BlendState = BlendState.Opaque;
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -129,19 +135,31 @@ namespace Tabletop_0._1
             base.Draw(gameTime);
         }
 
-        bool PickingCheck(SturmEH myModel )
+
+        public float? IntersectDistance(BoundingSphere sphere )
         {
-            //mouseray rausholen fuer evtl sichterkennung bei deckung
-            Ray ray = maus.MouseRay(camera.View(), camera.Projection(), (Viewport)this.GraphicsDevice.Viewport);
-            foreach (var mesh in myModel.model.Meshes)
+            Ray mouseRay = maus.MouseRay(camera.View(), camera.Projection(), this.GraphicsDevice.Viewport);
+            return mouseRay.Intersects(sphere);
+        }
+
+
+
+        public bool PickingCheck(Model model, Matrix world)
+        {
+            foreach (var mesh in model.Meshes)
             {
-                BoundingSphere b = mesh.BoundingSphere;
-                b = b.Transform(myModel.GetWorldMatrix());
-                if(ray.Intersects(b)==0.0f)
-                return true;
+                BoundingSphere sphere = mesh.BoundingSphere;
+                sphere = sphere.Transform(world);
+                Ray mouseRay = maus.MouseRay(camera.View(), camera.Projection(), this.GraphicsDevice.Viewport);
+
+                float? distance = mouseRay.Intersects(sphere);
+
+                if (distance != null)
+                {
+                    return true;
+                }
             }
             return false;
         }
-
     }
 }
