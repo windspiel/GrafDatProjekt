@@ -18,8 +18,6 @@ namespace Tabletop_0._1
         SpriteBatch spriteBatch;
         ButtonState LeftButton;
 
-        
-
         Table table = new Table();
         MouseCursor maus = new MouseCursor();
 
@@ -36,6 +34,7 @@ namespace Tabletop_0._1
 
         //Runden des spiels
         int Round = 0;
+        int selected = -1;
         //string message = "Picking does not work yet.";
         //SpriteFont font;
         #endregion
@@ -58,8 +57,6 @@ namespace Tabletop_0._1
         /// </summary>
         protected override void Initialize()
         {
-
-
             base.Initialize();
             maus.Initialize(Content, new Vector2(0, 0));
             table.Initialize(graphics);
@@ -72,14 +69,16 @@ namespace Tabletop_0._1
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //Load a lot of stuff
+            int i = 0;
             foreach (GameElement e in teamRot)
             {
                 e.load(Content);
+                e.Position =  new Vector2(i * 3, 0);
+                i++;
             }
            // robo.load(Content);
             table.Load(this.GraphicsDevice);
 //            font = Content.Load<SpriteFont>("Grafiken/Arial");
-            
         }
 
 
@@ -94,8 +93,6 @@ namespace Tabletop_0._1
         /// checking for collisions, gathering input, and playing audio.
 
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        
- 
 
         protected override void Update(GameTime gameTime)
         {
@@ -103,9 +100,23 @@ namespace Tabletop_0._1
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+           
             MouseState currentMouseState = Mouse.GetState();
             LeftButton = currentMouseState.LeftButton;
+            maus.update(camera.View(), camera.Projection(), this.GraphicsDevice.Viewport);
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
+
+            if (LeftButton == ButtonState.Pressed)
+            {
+                if (selected == -1)
+                {
+                    selected = isOver();
+                    // Objekt markieren
+                }
+
+                else
+                    teamRot[selected].movePoint = new Vector2(maus.Position3d.X, maus.Position3d.Y);
+            }
             #endregion
             #region: DrawUpdates
 
@@ -125,21 +136,17 @@ namespace Tabletop_0._1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-
-
             //3d Elements
             table.DrawGround(graphics);
             for (int i = 0;  i < teamRot.Length; i++)
             {
-                teamRot[i].rad = i * 2;
                 teamRot[i].draw();
             }
-
 
             // Gui und 2d Elemente
 
             spriteBatch.Begin();
-            maus.Draw(spriteBatch, LeftButton, CheckAll());
+            maus.Draw(spriteBatch, LeftButton, isOver()!=-1);
             spriteBatch.End();
 
             //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
@@ -150,18 +157,15 @@ namespace Tabletop_0._1
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
-
             base.Draw(gameTime);
         }
 
 
         public float? IntersectDistance(BoundingSphere sphere )
         {
-            Ray mouseRay = maus.MouseRay(camera.View(), camera.Projection(), this.GraphicsDevice.Viewport);
+            Ray mouseRay = maus.MouseRay();
             return mouseRay.Intersects(sphere);
         }
-
-
 
         public bool PickingCheck(Model model, Matrix world)
         {
@@ -169,27 +173,22 @@ namespace Tabletop_0._1
             {
                 BoundingSphere sphere = mesh.BoundingSphere;
                 sphere = sphere.Transform(world);
-                Ray mouseRay = maus.MouseRay(camera.View(), camera.Projection(), this.GraphicsDevice.Viewport);
-
+                Ray mouseRay = maus.MouseRay();
                 float? distance = mouseRay.Intersects(sphere);
 
                 if (distance != null)
-                {
-                    return true;
-                }
+                    return true;                
             }
             return false;
         }
-        bool CheckAll ()
+        int isOver ()
         {
-            foreach (GameElement e in teamRot)
+            for (int i = 0; i < teamRot.Length;i++ )
             {
-                if (PickingCheck(e.model, e.GetWorldMatrix()))
-                {
-                    return true;
-                }
+                if (PickingCheck(teamRot[i].model, teamRot[i].GetWorldMatrix()))
+                    return i;
             }
-            return false;
+            return -1;
         }
     }
 }

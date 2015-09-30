@@ -16,8 +16,8 @@ namespace Tabletop_0._1.GameElements
     class GameElement
     {
         public Model model;      
-        float angle;
-        public float rad;
+        public float angle;
+        public Vector2 Position, movePoint;
         private Camera cam;
 
         public virtual void load(ContentManager Content) { }
@@ -29,6 +29,10 @@ namespace Tabletop_0._1.GameElements
         public void update( GameTime gameTime, Camera camera)
         {
             angle += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (movePoint.X != Position.X && movePoint.Y != Position.Y)
+            {
+                Position = Position + (movePoint - Position) * 0.0001f;
+            }
             cam = camera;
         }
 
@@ -52,10 +56,9 @@ namespace Tabletop_0._1.GameElements
         
         public Matrix GetWorldMatrix()
         {
-            float circleRadius = rad;
             const float heightOffGround = 0;
 
-            Matrix translationMatrix = Matrix.CreateTranslation(circleRadius, 0, heightOffGround);
+            Matrix translationMatrix = Matrix.CreateTranslation(Position.X, Position.Y, heightOffGround);
             Matrix rotationMatrix = Matrix.CreateRotationZ(0);
             Matrix scaleMatrix = Matrix.CreateScale(0.03f );
 
