@@ -16,17 +16,14 @@ namespace Tabletop_0._1.GameElements
         //Draw
         private Texture2D MouseTexture22, MouseTexture33, MouseTexture11;
         private Matrix view, projection;
-        private Plane plane;
+        private Plane plane = new Plane(new Vector3(-20, -20, 0), new Vector3(-20, 20, 0), new Vector3(20, 20, 0));
         private Viewport viewport;
         public Vector2 Position;
         public Vector3 Position3d
         {
             get
             {
-                return viewport.Unproject(new Vector3(Position.X, Position.Y, littleHelper()),
-                    projection,
-                    view,
-                    Matrix.Identity);
+                return zSchnittStellenBerechner(MouseRay());
             }
         }
         public bool Active;
@@ -68,7 +65,6 @@ namespace Tabletop_0._1.GameElements
         public void update(Matrix View, Matrix Projection, Viewport Viewport)
         {
             view = View; projection = Projection; viewport = Viewport;
-            plane = new Plane();
         }
 
         public Ray MouseRay()
@@ -91,13 +87,12 @@ namespace Tabletop_0._1.GameElements
             return new Ray(nearPoint, direction);
         }
 
-        private float littleHelper()
+        private Vector3 zSchnittStellenBerechner(Ray anyRay)
         {
-            float? iwas = MouseRay().Intersects(plane);
-            if (iwas != null)
-                return (float)iwas;
+            float z = -1*anyRay.Position.Z/anyRay.Direction.Z  ;
 
-            return 0.0f;
+            return anyRay.Position+ anyRay.Direction*z;
+            
         }
     }
 }

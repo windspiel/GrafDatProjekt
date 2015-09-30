@@ -8,14 +8,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Tabletop_0._1.LogikElement;
+
+
 namespace Tabletop_0._1.Content.GameElements
 {
     class Table
     {
         VertexPositionTexture[] bodenVerts;
         BasicEffect effect;
-        Vector3 CameraPosition;
-       
+        private Camera cam;   
         Texture2D tableTexture;
 
         public void Initialize(GraphicsDeviceManager graphics)
@@ -25,6 +27,7 @@ namespace Tabletop_0._1.Content.GameElements
             bodenVerts[0].Position = new Vector3(-20, -20, 0);
             bodenVerts[1].Position = new Vector3(-20, 20, 0);
             bodenVerts[2].Position = new Vector3(20, -20, 0);
+
 
             bodenVerts[3].Position = bodenVerts[1].Position;
             bodenVerts[4].Position = new Vector3(20, 20, 0);
@@ -53,9 +56,9 @@ namespace Tabletop_0._1.Content.GameElements
             }
         }
 
-        public void update(Vector3 CamPos)
+        public void update(Camera Camera)
         {
-            CameraPosition = CamPos;
+            cam = Camera;
         }
 
         public void DrawGround(GraphicsDeviceManager graphics)
@@ -63,20 +66,10 @@ namespace Tabletop_0._1.Content.GameElements
             // The assignment of effect.View and effect.Projection
             // are nearly identical to the code in the Model drawing code.
             //var cameraPosition = new Vector3(0, 40, 20);
-            var cameraLookAtVector = Vector3.Zero;
-            var cameraUpVector = Vector3.UnitZ;
 
-            effect.View = Matrix.CreateLookAt(
-                CameraPosition, cameraLookAtVector, cameraUpVector);
+            effect.View = cam.View();
 
-            float aspectRatio =
-                graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
-            float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
-            float nearClipPlane = 1;
-            float farClipPlane = 200;
-
-            effect.Projection = Matrix.CreatePerspectiveFieldOfView(
-                fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
+            effect.Projection = cam.Projection();
 
             effect.TextureEnabled = true;
             effect.Texture = tableTexture;

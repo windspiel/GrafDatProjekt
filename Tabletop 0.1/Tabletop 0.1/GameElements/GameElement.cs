@@ -31,7 +31,7 @@ namespace Tabletop_0._1.GameElements
             angle += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (movePoint.X != Position.X && movePoint.Y != Position.Y)
             {
-                Position = Position + (movePoint - Position) * 0.0001f;
+                Position = Position + (movePoint - Position);
             }
             cam = camera;
         }

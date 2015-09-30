@@ -14,12 +14,10 @@ namespace Tabletop_0._1.LogikElement
     {
         public Vector3 cameraPosition = new Vector3(15,10,10);
         private GraphicsDeviceManager graphMan;
-
+        public Vector3 cameraLookAtVector = Vector3.Zero;
         public Matrix View()
         {
-            Vector3
-                cameraLookAtVector = Vector3.Zero,
-                cameraUpVector = Vector3.UnitZ;
+            Vector3 cameraUpVector = Vector3.UnitZ;
             return Matrix.CreateLookAt(cameraPosition, cameraLookAtVector, cameraUpVector); 
         }
 

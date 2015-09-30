@@ -16,18 +16,14 @@ namespace Tabletop_0._1
         #region: Globals
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        ButtonState LeftButton;
+        ButtonState 
+            LeftButton, oldLeftButton,
+            RightButton, oldRightButton;
 
         Table table = new Table();
         MouseCursor maus = new MouseCursor();
 
         Camera camera = new Camera();
-
-        private Vector3 cameraPos
-        {
-            get { return camera.cameraPosition; }
-            set { camera.cameraPosition = value; }
-        }
 
         GameElement[] teamRot = new GameElement[] { new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH() }, 
             teamBlau;
@@ -100,13 +96,52 @@ namespace Tabletop_0._1
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            //oben rechts
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                camera.cameraPosition.X--;
+                camera.cameraLookAtVector.X--;
+
+                camera.cameraPosition.Y--;
+                camera.cameraLookAtVector.Y--;
+            }
+            //untenlinks
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                camera.cameraPosition.X++;
+                camera.cameraLookAtVector.X++;
+
+                camera.cameraPosition.Y++;
+                camera.cameraLookAtVector.Y++;
+            }
+            //unten rechts
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                camera.cameraPosition.X--;
+                camera.cameraLookAtVector.X--;
+
+                camera.cameraPosition.Y++;
+                camera.cameraLookAtVector.Y++;
+            }
+            //oben links
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                camera.cameraPosition.X++;
+                camera.cameraLookAtVector.X++;
+
+                camera.cameraPosition.Y--;
+                camera.cameraLookAtVector.Y--;
+            }
+
            
             MouseState currentMouseState = Mouse.GetState();
             LeftButton = currentMouseState.LeftButton;
+            RightButton = currentMouseState.RightButton;
             maus.update(camera.View(), camera.Projection(), this.GraphicsDevice.Viewport);
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
 
-            if (LeftButton == ButtonState.Pressed)
+            if (LeftButton == ButtonState.Released && 
+                oldLeftButton == ButtonState.Pressed)
             {
                 if (selected == -1)
                 {
@@ -115,8 +150,13 @@ namespace Tabletop_0._1
                 }
 
                 else
+                {
                     teamRot[selected].movePoint = new Vector2(maus.Position3d.X, maus.Position3d.Y);
+                    selected = -1;
+                }
             }
+            oldLeftButton = LeftButton;
+            oldRightButton = RightButton;
             #endregion
             #region: DrawUpdates
 
@@ -124,7 +164,7 @@ namespace Tabletop_0._1
             {
                 e.update(gameTime, camera);
             }
-            table.update(cameraPos);
+            table.update(camera);
             #endregion
             base.Update(gameTime);
         }
