@@ -22,11 +22,21 @@ namespace Tabletop_0._1.GameElements
         Vector3 p;
         public float rad=10;
 
-        public Vector2 position
+        public Vector3 position
         {
-            get { return new Vector2(p.X, p.Y); }
+            get { return p; }
             set { p=new Vector3(value.X, value.Y, 0.1f);}
         }
+        //public void rader(Vector3 v1, Vector3 v2)
+        //{
+        //    if (v1.X < 0)
+        //        v1.X *= -1;
+
+        //    if (v2.X < 0)
+        //        v2.X *= -1;
+
+        //    rad = (v2.X ) - (v1.X );
+        //}
         //private float rY
         //{
         //    get { return p.Y+rad;}
@@ -79,6 +89,7 @@ namespace Tabletop_0._1.GameElements
 
         public void DrawGround(GraphicsDeviceManager graphics)
         {
+            Initialize(graphics);
             effect.View = cam.View();
 
             effect.Projection = cam.Projection();

@@ -17,7 +17,7 @@ namespace Tabletop_0._1.GameElements
     {
         public Model model;      
         public float angle;
-        public Vector2 Position, movePoint, oldPosition, oldDiff;
+        public Vector2 Position, movePoint, oldPosition;
         private Camera cam;
         public String team="stein";
         private int Leben, Bewegung, Staerke, Reichweite ;
