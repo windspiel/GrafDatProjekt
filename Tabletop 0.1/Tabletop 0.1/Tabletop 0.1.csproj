@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GameElements\Radius.cs" />
     <Compile Include="GameElements\SturmBA.cs" />
     <Compile Include="GameElements\Table.cs" />
     <Compile Include="GameElements\GameElement.cs" />
@@ -56,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Grafiken\Circle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Grafiken\Circle2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Grafiken\Maus11.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

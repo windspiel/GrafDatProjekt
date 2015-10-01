@@ -19,17 +19,23 @@ namespace Tabletop_0._1.GameElements
         public float angle;
         public Vector2 Position, movePoint, oldPosition, oldDiff;
         private Camera cam;
+        public String team="stein";
+        private int Leben, Bewegung, Staerke, Reichweite ;
+
         public float awayFromCom
         {
             get { return (cam.cameraPosition.X + cam.cameraPosition.Y) - (Position.X + Position.Y); }
         }
 
 
-
         public virtual void load(ContentManager Content) { }
 
-        public void load(ContentManager Content, String xnb_Name)
+        public void load(ContentManager Content, String xnb_Name, int Leb, int Bew ,int St, int Rw)
         {
+            Leben = Leb;
+            Bewegung = Bew;
+            Staerke = St;
+            Reichweite = Rw;
             model = Content.Load<Model>("Modelle/"+ xnb_Name);
         }
 

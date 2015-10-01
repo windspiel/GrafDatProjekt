@@ -9,32 +9,47 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Tabletop_0._1.LogikElement;
-using Tabletop_0._1.Content.GameElements;
 
 
-namespace Tabletop_0._1.Content.GameElements
+namespace Tabletop_0._1.GameElements
 {
-    class Table
+    class Radius
     {
         VertexPositionTexture[] bodenVerts;
         BasicEffect effect;
-        private Camera cam;   
+        private Camera cam;
         Texture2D tableTexture;
+        Vector3 p;
+        public float rad=10;
+
+        public Vector2 position
+        {
+            get { return new Vector2(p.X, p.Y); }
+            set { p=new Vector3(value.X, value.Y, 0.1f);}
+        }
+        //private float rY
+        //{
+        //    get { return p.Y+rad;}
+        //}
+        //private float rX
+        //{
+        //    get { return p.X + rad; }
+        //}
+
 
         public void Initialize(GraphicsDeviceManager graphics)
         {
             bodenVerts = new VertexPositionTexture[6];
 
-            bodenVerts[0].Position = new Vector3(-20, -20, 0);
-            bodenVerts[1].Position = new Vector3(-20, 20, 0);
-            bodenVerts[2].Position = new Vector3(20, -20, 0);
-
+            bodenVerts[0].Position = new Vector3(-rad, -rad, 0.1f);
+            bodenVerts[1].Position = new Vector3(-rad, rad, 0.1f);
+            bodenVerts[2].Position = new Vector3(rad, -rad, 0.1f);
 
             bodenVerts[3].Position = bodenVerts[1].Position;
-            bodenVerts[4].Position = new Vector3(20, 20, 0);
+            bodenVerts[4].Position = new Vector3(rad, rad, 0.1f);
             bodenVerts[5].Position = bodenVerts[2].Position;
             //Texture
-            int repeat = 20;
+            int repeat = 1;
 
             bodenVerts[0].TextureCoordinate = new Vector2(0, 0);
             bodenVerts[1].TextureCoordinate = new Vector2(0, repeat);
@@ -51,7 +66,7 @@ namespace Tabletop_0._1.Content.GameElements
         {
             // We aren't using the content pipeline, so we need
             // to access the stream directly:
-            using (var stream = TitleContainer.OpenStream("Content/Grafiken/Waben.png"))
+            using (var stream = TitleContainer.OpenStream("Content/Grafiken/Circle.png"))
             {
                 tableTexture = Texture2D.FromStream(graphicsDevice, stream);
             }
@@ -65,6 +80,7 @@ namespace Tabletop_0._1.Content.GameElements
         public void DrawGround(GraphicsDeviceManager graphics)
         {
             effect.View = cam.View();
+
             effect.Projection = cam.Projection();
 
             effect.TextureEnabled = true;

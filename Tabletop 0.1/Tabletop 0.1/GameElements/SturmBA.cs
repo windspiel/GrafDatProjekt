@@ -10,12 +10,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tabletop_0._1.GameElements
 {
-    class SturmBA: GameElement 
+    class SturmBA: GameElement
     {
         public override void load(ContentManager Content)
         {
             //load(Content, "robot");
-            load(Content, "MarieneVorab2");
+            load(Content, "MarieneVorab2", 3, 2, 2, 50);
+            team= "blau";
         }
     }
 }

@@ -20,14 +20,14 @@ namespace Tabletop_0._1
             LeftButton, oldLeftButton,
             RightButton, oldRightButton; 
         float oldMausWheel;
-
+        Radius radius = new Radius();
         Table table = new Table();
+        
         MouseCursor maus = new MouseCursor();
 
         Camera camera = new Camera();
 
-        GameElement[] teamRot = new GameElement[] { new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH(), new SturmBA(),new SturmBA()}, 
-            teamBlau;
+        GameElement[] teamRot = new GameElement[] { new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH(), new SturmBA(),new SturmBA()};
 
         //Runden des spiels
         int Round = 0;
@@ -57,6 +57,7 @@ namespace Tabletop_0._1
             base.Initialize();
             maus.Initialize(Content, new Vector2(0, 0));
             table.Initialize(graphics);
+            radius.Initialize(graphics);
             camera.initial(graphics);
         }
 
@@ -75,6 +76,7 @@ namespace Tabletop_0._1
             }
            // robo.load(Content);
             table.Load(this.GraphicsDevice);
+            radius.Load(this.GraphicsDevice);
 //            font = Content.Load<SpriteFont>("Grafiken/Arial");
         }
 
@@ -135,6 +137,7 @@ namespace Tabletop_0._1
                 e.update(gameTime, camera);
             }
             table.update(camera);
+            radius.update(camera);
             #endregion
 
             pickingSort();
@@ -150,6 +153,8 @@ namespace Tabletop_0._1
 
             //3d Elements
             table.DrawGround(graphics);
+            radius.DrawGround(graphics);
+
             for (int i = 0;  i < teamRot.Length; i++)
             {
                 teamRot[i].draw();
