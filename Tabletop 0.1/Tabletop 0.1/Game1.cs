@@ -18,7 +18,8 @@ namespace Tabletop_0._1
         SpriteBatch spriteBatch;
         ButtonState 
             LeftButton, oldLeftButton,
-            RightButton, oldRightButton;
+            RightButton, oldRightButton; 
+        float oldMausWheel;
 
         Table table = new Table();
         MouseCursor maus = new MouseCursor();
@@ -69,7 +70,7 @@ namespace Tabletop_0._1
             foreach (GameElement e in teamRot)
             {
                 e.load(Content);
-                e.Position =  new Vector2(i * 3, 0);
+                e.Position =e.movePoint=  new Vector2(i * 3, 0);
                 i++;
             }
            // robo.load(Content);
@@ -96,45 +97,13 @@ namespace Tabletop_0._1
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //oben rechts
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                camera.cameraPosition.X--;
-                camera.cameraLookAtVector.X--;
-
-                camera.cameraPosition.Y--;
-                camera.cameraLookAtVector.Y--;
-            }
-            //untenlinks
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                camera.cameraPosition.X++;
-                camera.cameraLookAtVector.X++;
-
-                camera.cameraPosition.Y++;
-                camera.cameraLookAtVector.Y++;
-            }
-            //unten rechts
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                camera.cameraPosition.X--;
-                camera.cameraLookAtVector.X--;
-
-                camera.cameraPosition.Y++;
-                camera.cameraLookAtVector.Y++;
-            }
-            //oben links
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                camera.cameraPosition.X++;
-                camera.cameraLookAtVector.X++;
-
-                camera.cameraPosition.Y--;
-                camera.cameraLookAtVector.Y--;
-            }
+            
 
            
             MouseState currentMouseState = Mouse.GetState();
+
+            camera.steuern(Keyboard.GetState(), currentMouseState.ScrollWheelValue - oldMausWheel);
+
             LeftButton = currentMouseState.LeftButton;
             RightButton = currentMouseState.RightButton;
             maus.update(camera.View(), camera.Projection(), this.GraphicsDevice.Viewport);
@@ -157,6 +126,7 @@ namespace Tabletop_0._1
             }
             oldLeftButton = LeftButton;
             oldRightButton = RightButton;
+            oldMausWheel = currentMouseState.ScrollWheelValue;
             #endregion
             #region: DrawUpdates
 
@@ -166,6 +136,8 @@ namespace Tabletop_0._1
             }
             table.update(camera);
             #endregion
+
+            pickingSort();
             base.Update(gameTime);
         }
 
@@ -229,6 +201,20 @@ namespace Tabletop_0._1
                     return i;
             }
             return -1;
+        }
+        public void pickingSort()
+        {
+            GameElement switcher;
+                for (int i = 0; i < teamRot.Length-1; i++)
+                {
+                    if(teamRot[i].awayFromCom>teamRot[i+1].awayFromCom)
+                    {
+                        switcher=teamRot[i];
+                        teamRot[i]=teamRot[i+1];
+                        teamRot[i+1]=switcher;
+                    }
+                }
+            
         }
     }
 }

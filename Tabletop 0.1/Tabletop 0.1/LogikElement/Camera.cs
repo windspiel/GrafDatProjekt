@@ -42,5 +42,50 @@ namespace Tabletop_0._1.LogikElement
             cameraPosition = position;
             graphMan = graphics;
         }
+
+        public void steuern(KeyboardState keyboard, float iwas)
+        {
+            //oben rechts
+            if (keyboard.IsKeyDown(Keys.W))
+            {
+                cameraPosition.X--;
+                cameraLookAtVector.X--;
+
+                cameraPosition.Y--;
+                cameraLookAtVector.Y--;
+            }
+            //untenlinks
+            if (keyboard.IsKeyDown(Keys.S))
+            {
+                cameraPosition.X++;
+                cameraLookAtVector.X++;
+
+                cameraPosition.Y++;
+                cameraLookAtVector.Y++;
+            }
+            //unten rechts
+            if (keyboard.IsKeyDown(Keys.D))
+            {
+                cameraPosition.X--;
+                cameraLookAtVector.X--;
+
+                cameraPosition.Y++;
+                cameraLookAtVector.Y++;
+            }
+            //oben links
+            if (keyboard.IsKeyDown(Keys.A))
+            {
+                cameraPosition.X++;
+                cameraLookAtVector.X++;
+
+                cameraPosition.Y--;
+                cameraLookAtVector.Y--;
+            }
+
+            if (cameraPosition.Z + iwas * 0.005f > 0)
+            {
+              cameraPosition.Z = cameraPosition.Z + iwas*0.01f;
+            }
+        }
     }
 }

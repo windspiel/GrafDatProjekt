@@ -17,10 +17,17 @@ namespace Tabletop_0._1.GameElements
     {
         public Model model;      
         public float angle;
-        public Vector2 Position, movePoint;
+        public Vector2 Position, movePoint, oldPosition, oldDiff;
         private Camera cam;
+        public float awayFromCom
+        {
+            get { return (cam.cameraPosition.X + cam.cameraPosition.Y) - (Position.X + Position.Y); }
+        }
+
+
 
         public virtual void load(ContentManager Content) { }
+
         public void load(ContentManager Content, String xnb_Name)
         {
             model = Content.Load<Model>("Modelle/"+ xnb_Name);
@@ -28,11 +35,25 @@ namespace Tabletop_0._1.GameElements
 
         public void update( GameTime gameTime, Camera camera)
         {
-            angle += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (movePoint.X != Position.X && movePoint.Y != Position.Y)
+            //animation
+            //angle += (float)gameTime.ElapsedGameTime.TotalSeconds;
+ 
+            Vector2 diff = movePoint-Position;
+            if (diff.X < 0)
+                diff.X *= -1;
+
+            if (diff.Y < 0)
+                diff.Y *= -1;
+
+            float tolerance = 0.1f;
+            if (diff.X > tolerance || diff.Y > tolerance)
             {
-                Position = Position + (movePoint - Position);
+                    Position = Position + (movePoint - oldPosition) * 0.05f;
             }
+            else
+                oldPosition = Position;
+            
+            //camera update
             cam = camera;
         }
 
