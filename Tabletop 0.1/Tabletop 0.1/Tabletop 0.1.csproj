@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GameElements\SturmBA.cs" />
     <Compile Include="GameElements\Table.cs" />
     <Compile Include="GameElements\GameElement.cs" />
     <Compile Include="GameElements\SturmEH.cs" />

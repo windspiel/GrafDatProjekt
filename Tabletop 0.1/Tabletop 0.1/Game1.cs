@@ -26,7 +26,7 @@ namespace Tabletop_0._1
 
         Camera camera = new Camera();
 
-        GameElement[] teamRot = new GameElement[] { new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH() }, 
+        GameElement[] teamRot = new GameElement[] { new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH(), new SturmBA(),new SturmBA()}, 
             teamBlau;
 
         //Runden des spiels

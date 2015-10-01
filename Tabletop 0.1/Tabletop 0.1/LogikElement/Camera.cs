@@ -15,6 +15,8 @@ namespace Tabletop_0._1.LogikElement
         public Vector3 cameraPosition = new Vector3(15,10,10);
         private GraphicsDeviceManager graphMan;
         public Vector3 cameraLookAtVector = Vector3.Zero;
+        float s = 0.5f;
+
         public Matrix View()
         {
             Vector3 cameraUpVector = Vector3.UnitZ;
@@ -48,38 +50,38 @@ namespace Tabletop_0._1.LogikElement
             //oben rechts
             if (keyboard.IsKeyDown(Keys.W))
             {
-                cameraPosition.X--;
-                cameraLookAtVector.X--;
+                cameraPosition.X-=s;
+                cameraLookAtVector.X-=s;
 
-                cameraPosition.Y--;
-                cameraLookAtVector.Y--;
+                cameraPosition.Y-=s;
+                cameraLookAtVector.Y-=s;
             }
             //untenlinks
             if (keyboard.IsKeyDown(Keys.S))
             {
-                cameraPosition.X++;
-                cameraLookAtVector.X++;
+                cameraPosition.X+=s;
+                cameraLookAtVector.X+=s;
 
-                cameraPosition.Y++;
-                cameraLookAtVector.Y++;
+                cameraPosition.Y+=s;
+                cameraLookAtVector.Y+=s;
             }
             //unten rechts
             if (keyboard.IsKeyDown(Keys.D))
             {
-                cameraPosition.X--;
-                cameraLookAtVector.X--;
+                cameraPosition.X-=s;
+                cameraLookAtVector.X-=s;
 
-                cameraPosition.Y++;
-                cameraLookAtVector.Y++;
+                cameraPosition.Y+=s;
+                cameraLookAtVector.Y+=s;
             }
             //oben links
             if (keyboard.IsKeyDown(Keys.A))
             {
-                cameraPosition.X++;
-                cameraLookAtVector.X++;
+                cameraPosition.X+=s;
+                cameraLookAtVector.X+=s;
 
-                cameraPosition.Y--;
-                cameraLookAtVector.Y--;
+                cameraPosition.Y-=s;
+                cameraLookAtVector.Y-=s;
             }
 
             if (cameraPosition.Z + iwas * 0.005f > 0)
