@@ -94,6 +94,13 @@ namespace Tabletop_0._1.GameElements
             return anyRay.Position+ anyRay.Direction*z;
             
         }
+        public double awayFromMouse(Vector2 Point)
+        {
+            double distanceX = Position3d.X - Point.X;
+            double distanceY = Position3d.Y - Point.Y;
+            double distanzeXY = (Math.Pow(distanceX,2) + Math.Pow(distanceY,2));
+            return Math.Sqrt(distanzeXY);
+        }
     }
 }
 

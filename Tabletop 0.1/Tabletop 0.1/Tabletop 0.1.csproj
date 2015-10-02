@@ -38,7 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GameElements\Radius.cs" />
+    <Compile Include="GameElements\Circle.cs" />
     <Compile Include="GameElements\SturmBA.cs" />
     <Compile Include="GameElements\Table.cs" />
     <Compile Include="GameElements\GameElement.cs" />

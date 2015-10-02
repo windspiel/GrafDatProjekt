@@ -15,7 +15,7 @@ namespace Tabletop_0._1.GameElements
         public override void load(ContentManager Content)
         {
             //load(Content, "robot");
-            load(Content, "MarieneVorab", 3,2,2,50);
+            load(Content, "MarieneVorab", 3, 2, 2, 50, 0.03f);
             team = "rot";
         }
     }

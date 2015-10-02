@@ -16,44 +16,58 @@ namespace Tabletop_0._1.GameElements
     class GameElement
     {
         public Model model;      
-        public float angle;
+        public float angle=0,scale;
         public Vector2 Position, movePoint, oldPosition;
         private Camera cam;
         public String team="stein";
-        private int Leben, Bewegung, Staerke, Reichweite ;
+        public int Leben, Bewegung, Staerke, Reichweite ;
 
-        public float awayFromCom
+
+        public float awayFromCamera
         {
             get { return (cam.cameraPosition.X + cam.cameraPosition.Y) - (Position.X + Position.Y); }
         }
-
+        public Vector3 Position3d
+        {
+            get{ return new Vector3(Position.X, Position.Y,0.001f) ;}
+        }
 
         public virtual void load(ContentManager Content) { }
 
-        public void load(ContentManager Content, String xnb_Name, int Leb, int Bew ,int St, int Rw)
+        public void load(ContentManager Content, String xnb_Name, int Leb, int Bew ,int St, int Rw, float scal)
         {
             Leben = Leb;
             Bewegung = Bew;
             Staerke = St;
             Reichweite = Rw;
             model = Content.Load<Model>("Modelle/"+ xnb_Name);
+            scale = scal;
         }
+        private void winkel()
+        {
+            Vector2 spuck = movePoint - Position;
+            spuck.Normalize();
+            angle = (float)(Math.Atan2(spuck.Y,spuck.X)+Math.PI/2);
+        }
+
+
 
         public void update( GameTime gameTime, Camera camera)
         {
             //animation
-            //angle += (float)gameTime.ElapsedGameTime.TotalSeconds;
  
+            //Walk
+
             Vector2 diff = movePoint-Position;
             if (diff.X < 0)
                 diff.X *= -1;
 
             if (diff.Y < 0)
                 diff.Y *= -1;
-
             float tolerance = 0.1f;
             if (diff.X > tolerance || diff.Y > tolerance)
             {
+                    winkel();
                     Position = Position + (movePoint - oldPosition) * 0.05f;
             }
             else
@@ -76,6 +90,7 @@ namespace Tabletop_0._1.GameElements
 
                     effect.View = cam.View();
                     effect.Projection = cam.Projection();
+                    //effect.Alpha = 0.5f;
                 }
                 mesh.Draw();
             }
@@ -85,11 +100,11 @@ namespace Tabletop_0._1.GameElements
         {
             const float heightOffGround = 0;
 
-            Matrix translationMatrix = Matrix.CreateTranslation(Position.X, Position.Y, heightOffGround);
-            Matrix rotationMatrix = Matrix.CreateRotationZ(0);
-            Matrix scaleMatrix = Matrix.CreateScale(0.03f );
+            Matrix translationMatrix = Matrix.CreateTranslation(Position.X, Position.Y, heightOffGround+0.001f);
+            Matrix rotationMatrix = Matrix.CreateRotationZ(angle);            
+            Matrix scaleMatrix = Matrix.CreateScale(scale );
 
-            Matrix combined = scaleMatrix * translationMatrix * rotationMatrix;
+            Matrix combined = scaleMatrix *  rotationMatrix*translationMatrix ;
 
             return combined;
         }

@@ -20,15 +20,15 @@ namespace Tabletop_0._1
             LeftButton, oldLeftButton,
             RightButton, oldRightButton; 
         float oldMausWheel;
-        Radius radius = new Radius();
+
         Table table = new Table();
-        
+
         MouseCursor maus = new MouseCursor();
 
         Camera camera = new Camera();
 
         GameElement[] teamRot = new GameElement[] { new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH(), new SturmBA(),new SturmBA()};
-
+        Circle circ = new Circle();
         //Runden des spiels
         int Round = 0;
         int selected = -1;
@@ -57,7 +57,6 @@ namespace Tabletop_0._1
             base.Initialize();
             maus.Initialize(Content, new Vector2(0, 0));
             table.Initialize(graphics);
-            radius.Initialize(graphics);
             camera.initial(graphics);
         }
 
@@ -74,15 +73,13 @@ namespace Tabletop_0._1
                 e.Position =e.movePoint=  new Vector2(i * 3, 0);
                 i++;
             }
-           // robo.load(Content);
             table.Load(this.GraphicsDevice);
-            radius.Load(this.GraphicsDevice);
+            circ.load(Content);
+            circ.Position = new Vector2(0,0);
 //            font = Content.Load<SpriteFont>("Grafiken/Arial");
         }
 
 
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
         protected override void UnloadContent()
         {
 
@@ -98,10 +95,6 @@ namespace Tabletop_0._1
             #region:Steuerung
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            
-
-           
             MouseState currentMouseState = Mouse.GetState();
 
             camera.steuern(Keyboard.GetState(), currentMouseState.ScrollWheelValue - oldMausWheel);
@@ -114,16 +107,44 @@ namespace Tabletop_0._1
             if (LeftButton == ButtonState.Released && 
                 oldLeftButton == ButtonState.Pressed)
             {
-                if (selected == -1)
+                /*
+                 * keine Figur ausgewählt?
+                 * dann wähle aus deinem team
+                 */
+                if (!isSelected())
                 {
                     selected = isOver();
-                    // Objekt markieren
                 }
 
+                    /*
+                     * wenn doch bewegen oder kämpfen
+                     */
                 else
                 {
-                    teamRot[selected].movePoint = new Vector2(maus.Position3d.X, maus.Position3d.Y);
-                    selected = -1;
+                    //Bewegen:  Kollisionen mit anderen figuren beachten
+                    if (isOver() < 0)
+                    {
+                        if (//nicht das spielfeld verlassen//
+                         -20 < maus.Position3d.X && 20 > maus.Position3d.X
+                        && -20 < maus.Position3d.Y && 20 > maus.Position3d.Y
+                            //nicht den Kreis verlassen
+                        && maus.awayFromMouse(teamRot[selected].Position) < circ.scale)
+                        {
+                            teamRot[selected].movePoint = new Vector2(maus.Position3d.X, maus.Position3d.Y);
+                            selected = -1;
+                        }
+                        else
+                        {
+                            selected = -1;
+                        }
+                    }
+                    else
+                    {
+                        if (teamRot[isOver()].team == teamRot[selected].team)
+                        {
+                            selected = isOver();
+                        }
+                    }
                 }
             }
             oldLeftButton = LeftButton;
@@ -136,8 +157,16 @@ namespace Tabletop_0._1
             {
                 e.update(gameTime, camera);
             }
+            //Circlestuff
+            circ.update(gameTime, camera);
+            if (isSelected())
+            {
+                circ.Position = teamRot[selected].Position;
+                circ.scale = teamRot[selected].Bewegung*2.5f;
+            }
+
+
             table.update(camera);
-            radius.update(camera);
             #endregion
 
             pickingSort();
@@ -153,12 +182,13 @@ namespace Tabletop_0._1
 
             //3d Elements
             table.DrawGround(graphics);
-            radius.DrawGround(graphics);
-
+            
             for (int i = 0;  i < teamRot.Length; i++)
             {
                 teamRot[i].draw();
             }
+            if (isSelected())
+                circ.draw();
 
             // Gui und 2d Elemente
 
@@ -166,6 +196,7 @@ namespace Tabletop_0._1
             maus.Draw(spriteBatch, LeftButton, isOver()!=-1);
             spriteBatch.End();
 
+            //Schrift
             //spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             //spriteBatch.DrawString(font, message, new Vector2(100, 100), Color.Black);
             //spriteBatch.End();
@@ -176,14 +207,13 @@ namespace Tabletop_0._1
 
             base.Draw(gameTime);
         }
-
-
+        //Picking
+        #region:Picking
         public float? IntersectDistance(BoundingSphere sphere )
         {
             Ray mouseRay = maus.MouseRay();
             return mouseRay.Intersects(sphere);
         }
-
         public bool PickingCheck(Model model, Matrix world)
         {
             foreach (var mesh in model.Meshes)
@@ -212,14 +242,18 @@ namespace Tabletop_0._1
             GameElement switcher;
                 for (int i = 0; i < teamRot.Length-1; i++)
                 {
-                    if(teamRot[i].awayFromCom>teamRot[i+1].awayFromCom)
+                    if(teamRot[i].awayFromCamera>teamRot[i+1].awayFromCamera)
                     {
                         switcher=teamRot[i];
                         teamRot[i]=teamRot[i+1];
                         teamRot[i+1]=switcher;
                     }
-                }
-            
+                }           
+        }
+        #endregion
+        public bool isSelected()
+        {
+            return selected != -1;
         }
     }
 }
