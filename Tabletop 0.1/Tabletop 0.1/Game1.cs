@@ -28,8 +28,10 @@ namespace Tabletop_0._1
         Camera camera = new Camera();
 
         GameElement[] teamRot = new GameElement[] { 
-            new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH(), 
-            new SturmBA(),new SturmBA(), new SturmBA(), new SturmBA()};
+            new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH(),
+            new TermiEH(), new TermiEH(),new CptnEH(), new CptnEH(),
+            new SturmBA(),new SturmBA(), new SturmBA(), new SturmBA(),
+            new TermiBA(), new TermiBA(), new CptnBA(), new CptnBA()};
         GameElement selPlayer
         {
             get { return teamRot[selected]; }

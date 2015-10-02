@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
@@ -10,14 +7,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tabletop_0._1.GameElements
 {
-    class SturmEH: GameElement 
+    class TermiBA : GameElement
     {
         public override void load(ContentManager Content)
         {
-            //Leb Bew ST RW 
             //load(Content, "robot");
-            load(Content, "MarieneVorab", 6, 3, 2, 10, 0.03f);
-            team = "rot";
+            //Leb Bew ST RW 
+            load(Content, "TermiBlau", 10, 1, 1, 15, 0.23f);
+            team = "blau";
         }
     }
 }
