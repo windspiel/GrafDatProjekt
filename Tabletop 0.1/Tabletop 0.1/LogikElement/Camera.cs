@@ -16,7 +16,6 @@ namespace Tabletop_0._1.LogikElement
         private GraphicsDeviceManager graphMan;
         public Vector3 cameraLookAtVector = Vector3.Zero;
         float s = 0.5f;
-        float doof;
 
         public Matrix View()
         {
@@ -59,10 +58,6 @@ namespace Tabletop_0._1.LogikElement
                     cameraPosition.Y += value;
                     cameraLookAtVector.Y += value;
                 }
-                else
-                {
-                }
-
             }
         }
 
@@ -77,32 +72,23 @@ namespace Tabletop_0._1.LogikElement
             //oben rechts
             if (keyboard.IsKeyDown(Keys.W))
             {
-                ControlX=-s;
-
-                ControlY=-s;
+                ControlX=-s;  ControlY=-s;
             }
             //untenlinks
             if (keyboard.IsKeyDown(Keys.S))
             {
-                ControlX=s;
-
-                ControlY=s;
+                ControlX=s; ControlY=s;
 
             }
             //unten rechts
             if (keyboard.IsKeyDown(Keys.D))
             {
-                ControlX=-s;
-
-                ControlY=s;
-
+                ControlX=-s; ControlY=s;
             }
             //oben links
             if (keyboard.IsKeyDown(Keys.A))
             {
-                ControlX=s;
-
-                ControlY=-s;
+                ControlX=s; ControlY=-s;
             }
 
             if (cameraPosition.Z + iwas * 0.005f > 0)

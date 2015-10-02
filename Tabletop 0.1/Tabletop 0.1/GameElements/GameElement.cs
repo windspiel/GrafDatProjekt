@@ -20,8 +20,8 @@ namespace Tabletop_0._1.GameElements
         public Vector2 Position, movePoint, oldPosition;
         private Camera cam;
         public String team="stein";
-        public int Leben, Bewegung, Staerke, Reichweite ;
-
+        public int Leben, Bewegung, Staerke, Reichweite, shots=0 ;
+        public Boolean hasShot = false, hasMoved = false;
 
         public float awayFromCamera
         {

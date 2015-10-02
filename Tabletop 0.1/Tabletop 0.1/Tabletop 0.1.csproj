@@ -46,6 +46,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameElements\MouseCursor.cs" />
     <Compile Include="LogikElement\Camera.cs" />
+    <Compile Include="LogikElement\Spielstatus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

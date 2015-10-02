@@ -22,12 +22,14 @@ namespace Tabletop_0._1
         float oldMausWheel;
 
         Table table = new Table();
-
         MouseCursor maus = new MouseCursor();
 
+        Spielstatus GStatus= new Spielstatus();
         Camera camera = new Camera();
 
-        GameElement[] teamRot = new GameElement[] { new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH(), new SturmBA(),new SturmBA()};
+        GameElement[] teamRot = new GameElement[] { 
+            new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH(), 
+            new SturmBA(),new SturmBA(), new SturmBA(), new SturmBA()};
         GameElement selPlayer
         {
             get { return teamRot[selected]; }
@@ -49,7 +51,6 @@ namespace Tabletop_0._1
         
         Circle circ = new Circle();
         //Runden des spiels
-        int Round = 0;
         int selected = -1;
         //string message = "Picking does not work yet.";
         //SpriteFont font;
@@ -85,12 +86,20 @@ namespace Tabletop_0._1
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //Load a lot of stuff
-            int i = 0;
+            int i = 0; int ii = 0;
             foreach (GameElement e in teamRot)
             {
                 e.load(Content);
-                e.Position =e.movePoint=  new Vector2(i * 3, 0);
-                i++;
+                if (e.team == "rot")
+                {
+                    e.Position = e.movePoint = new Vector2(i * 3, 19);
+                    i++; GStatus.Rote++;
+                }
+                if (e.team == "blau")
+                {
+                    e.Position = e.movePoint = new Vector2(ii * 3, -19);
+                    ii++; GStatus.Blaue++;
+                }
             }
             table.Load(this.GraphicsDevice);
             circ.load(Content);
