@@ -16,6 +16,7 @@ namespace Tabletop_0._1.LogikElement
         private GraphicsDeviceManager graphMan;
         public Vector3 cameraLookAtVector = Vector3.Zero;
         float s = 0.5f;
+        float doof;
 
         public Matrix View()
         {
@@ -38,6 +39,32 @@ namespace Tabletop_0._1.LogikElement
             update(new Vector3(15, 10, 10), graphics);
         }
 
+        private float ControlX
+        {
+            set {
+                if (value + cameraLookAtVector.X > -20 && value + cameraLookAtVector.X < 20)
+                {
+                    cameraPosition.X += value;
+                    cameraLookAtVector.X += value;
+                }
+            }
+        }
+
+        private float ControlY
+        {
+            set
+            {
+                if (value + cameraLookAtVector.Y > -20 && value + cameraLookAtVector.Y < 20)
+                {
+                    cameraPosition.Y += value;
+                    cameraLookAtVector.Y += value;
+                }
+                else
+                {
+                }
+
+            }
+        }
 
         public void update(Vector3 position, GraphicsDeviceManager graphics)
         {
@@ -50,38 +77,32 @@ namespace Tabletop_0._1.LogikElement
             //oben rechts
             if (keyboard.IsKeyDown(Keys.W))
             {
-                cameraPosition.X-=s;
-                cameraLookAtVector.X-=s;
+                ControlX=-s;
 
-                cameraPosition.Y-=s;
-                cameraLookAtVector.Y-=s;
+                ControlY=-s;
             }
             //untenlinks
             if (keyboard.IsKeyDown(Keys.S))
             {
-                cameraPosition.X+=s;
-                cameraLookAtVector.X+=s;
+                ControlX=s;
 
-                cameraPosition.Y+=s;
-                cameraLookAtVector.Y+=s;
+                ControlY=s;
+
             }
             //unten rechts
             if (keyboard.IsKeyDown(Keys.D))
             {
-                cameraPosition.X-=s;
-                cameraLookAtVector.X-=s;
+                ControlX=-s;
 
-                cameraPosition.Y+=s;
-                cameraLookAtVector.Y+=s;
+                ControlY=s;
+
             }
             //oben links
             if (keyboard.IsKeyDown(Keys.A))
             {
-                cameraPosition.X+=s;
-                cameraLookAtVector.X+=s;
+                ControlX=s;
 
-                cameraPosition.Y-=s;
-                cameraLookAtVector.Y-=s;
+                ControlY=-s;
             }
 
             if (cameraPosition.Z + iwas * 0.005f > 0)

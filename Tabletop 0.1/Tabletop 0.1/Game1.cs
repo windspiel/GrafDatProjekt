@@ -28,6 +28,25 @@ namespace Tabletop_0._1
         Camera camera = new Camera();
 
         GameElement[] teamRot = new GameElement[] { new SturmEH(), new SturmEH(), new SturmEH(), new SturmEH(), new SturmBA(),new SturmBA()};
+        GameElement selPlayer
+        {
+            get { return teamRot[selected]; }
+        }
+
+        GameElement othPlayer
+        {
+            get
+            {
+                if (isOver() != -1)
+                    return teamRot[isOver()];
+                return null;
+            }
+            set
+            {
+                teamRot[isOver()]=value;
+            }
+        }
+        
         Circle circ = new Circle();
         //Runden des spiels
         int Round = 0;
@@ -128,9 +147,9 @@ namespace Tabletop_0._1
                          -20 < maus.Position3d.X && 20 > maus.Position3d.X
                         && -20 < maus.Position3d.Y && 20 > maus.Position3d.Y
                             //nicht den Kreis verlassen
-                        && maus.awayFromMouse(teamRot[selected].Position) < circ.scale)
+                        && maus.awayFromMouse(selPlayer.Position) < circ.scale)
                         {
-                            teamRot[selected].movePoint = new Vector2(maus.Position3d.X, maus.Position3d.Y);
+                            selPlayer.movePoint = new Vector2(maus.Position3d.X, maus.Position3d.Y);
                             selected = -1;
                         }
                         else
@@ -140,9 +159,15 @@ namespace Tabletop_0._1
                     }
                     else
                     {
-                        if (teamRot[isOver()].team == teamRot[selected].team)
+                        if (othPlayer.team == selPlayer.team)
                         {
                             selected = isOver();
+                        }
+                        else
+                        {
+                            othPlayer.Leben--;
+                            if (othPlayer.Leben < 1)
+                                othPlayer.Position=othPlayer.movePoint= new Vector2(100,0);
                         }
                     }
                 }
@@ -161,8 +186,8 @@ namespace Tabletop_0._1
             circ.update(gameTime, camera);
             if (isSelected())
             {
-                circ.Position = teamRot[selected].Position;
-                circ.scale = teamRot[selected].Bewegung*2.5f;
+                circ.Position = selPlayer.Position;
+                circ.scale = selPlayer.Bewegung*2.5f;
             }
 
 
