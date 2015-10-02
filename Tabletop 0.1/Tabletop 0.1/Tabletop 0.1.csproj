@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GameElements\Circle.cs" />
+    <Compile Include="GameElements\RCircle.cs" />
     <Compile Include="GameElements\SturmBA.cs" />
     <Compile Include="GameElements\Table.cs" />
     <Compile Include="GameElements\GameElement.cs" />

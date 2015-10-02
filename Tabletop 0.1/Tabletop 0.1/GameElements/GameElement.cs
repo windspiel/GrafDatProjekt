@@ -21,7 +21,7 @@ namespace Tabletop_0._1.GameElements
         private Camera cam;
         public String team="stein";
         public int Leben, Bewegung, Staerke, Reichweite, shots=0 ;
-        public Boolean hasShot = false, hasMoved = false;
+        public Boolean hasMoved = false;
 
         public float awayFromCamera
         {
@@ -43,9 +43,9 @@ namespace Tabletop_0._1.GameElements
             model = Content.Load<Model>("Modelle/"+ xnb_Name);
             scale = scal;
         }
-        private void winkel()
+        public void winkel(Vector2 puck)
         {
-            Vector2 spuck = movePoint - Position;
+            Vector2 spuck = puck - Position;
             spuck.Normalize();
             angle = (float)(Math.Atan2(spuck.Y,spuck.X)+Math.PI/2);
         }
@@ -67,7 +67,7 @@ namespace Tabletop_0._1.GameElements
             float tolerance = 0.1f;
             if (diff.X > tolerance || diff.Y > tolerance)
             {
-                    winkel();
+                winkel(movePoint );
                     Position = Position + (movePoint - oldPosition) * 0.05f;
             }
             else
@@ -107,6 +107,11 @@ namespace Tabletop_0._1.GameElements
             Matrix combined = scaleMatrix *  rotationMatrix*translationMatrix ;
 
             return combined;
+        }
+        public void refresh()
+        {
+            shots = 0;
+            hasMoved = false;
         }
     }
 }

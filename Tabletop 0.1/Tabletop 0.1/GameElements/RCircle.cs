@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using Tabletop_0._1.LogikElement;
+
 namespace Tabletop_0._1.GameElements
 {
-    class SturmEH: GameElement 
+    class RCircle:GameElement
     {
         public override void load(ContentManager Content)
         {
-            //load(Content, "robot");
-            load(Content, "MarieneVorab", 3, 2, 2, 10, 0.03f);
-            team = "rot";
-        }
+            load(Content, "CircleRed", 1, 0, 0, 0, 1f);
+        }  
     }
 }

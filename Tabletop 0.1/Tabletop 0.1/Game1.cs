@@ -50,6 +50,7 @@ namespace Tabletop_0._1
         }
         
         Circle circ = new Circle();
+        RCircle rCirc = new RCircle();
         //Runden des spiels
         int selected = -1;
         //string message = "Picking does not work yet.";
@@ -92,18 +93,21 @@ namespace Tabletop_0._1
                 e.load(Content);
                 if (e.team == "rot")
                 {
-                    e.Position = e.movePoint = new Vector2(i * 3, 19);
+                    e.Position = e.movePoint = new Vector2(i * 3-10, 19);
                     i++; GStatus.Rote++;
                 }
                 if (e.team == "blau")
                 {
-                    e.Position = e.movePoint = new Vector2(ii * 3, -19);
+                    e.Position = e.movePoint = new Vector2(ii * 3-10, -19);
+                    e.winkel(new Vector2(ii * 3-10, -18));
                     ii++; GStatus.Blaue++;
                 }
             }
             table.Load(this.GraphicsDevice);
             circ.load(Content);
             circ.Position = new Vector2(0,0);
+            rCirc.load(Content);
+            rCirc.Position = new Vector2(0, 0);
 //            font = Content.Load<SpriteFont>("Grafiken/Arial");
         }
 
@@ -132,6 +136,14 @@ namespace Tabletop_0._1
             maus.update(camera.View(), camera.Projection(), this.GraphicsDevice.Viewport);
             maus.Position = new Vector2(currentMouseState.X, currentMouseState.Y);
 
+            if (RightButton == ButtonState.Released &&
+                oldRightButton == ButtonState.Pressed)
+            {
+                GStatus.nextPhase();
+                selected = -1;
+
+            }
+
             if (LeftButton == ButtonState.Released && 
                 oldLeftButton == ButtonState.Pressed)
             {
@@ -139,9 +151,16 @@ namespace Tabletop_0._1
                  * keine Figur ausgewählt?
                  * dann wähle aus deinem team
                  */
-                if (!isSelected())
+                if (!isSelected()&&isOver()!=-1)
                 {
-                    selected = isOver();
+                    if (othPlayer.team == GStatus.Turn)
+                    {
+                        selected = isOver();
+
+                        if (GStatus.Phase == "move" && selPlayer.hasMoved)
+                            selected = -1;
+                    }
+
                 }
 
                     /*
@@ -150,33 +169,63 @@ namespace Tabletop_0._1
                 else
                 {
                     //Bewegen:  Kollisionen mit anderen figuren beachten
-                    if (isOver() < 0)
+                    if (GStatus.Phase == "move")
                     {
-                        if (//nicht das spielfeld verlassen//
-                         -20 < maus.Position3d.X && 20 > maus.Position3d.X
-                        && -20 < maus.Position3d.Y && 20 > maus.Position3d.Y
-                            //nicht den Kreis verlassen
-                        && maus.awayFromMouse(selPlayer.Position) < circ.scale)
+                        if (isOver() < 0&&isSelected())
                         {
-                            selPlayer.movePoint = new Vector2(maus.Position3d.X, maus.Position3d.Y);
-                            selected = -1;
-                        }
-                        else
-                        {
-                            selected = -1;
-                        }
+
+
+                                if (//nicht das spielfeld verlassen//
+                                 -20 < maus.Position3d.X && 20 > maus.Position3d.X
+                                && -20 < maus.Position3d.Y && 20 > maus.Position3d.Y
+                                    //nicht den Kreis verlassen
+                                && maus.awayFromMouse(selPlayer.Position) < circ.scale)
+                                {
+                                    selPlayer.movePoint = new Vector2(maus.Position3d.X, maus.Position3d.Y);
+                                    GStatus.moved();
+                                    selPlayer.hasMoved = true;
+                                    selected = -1;
+                                }
+                            }
+                        
                     }
+                        //kill
                     else
                     {
-                        if (othPlayer.team == selPlayer.team)
-                        {
-                            selected = isOver();
-                        }
-                        else
-                        {
-                            othPlayer.Leben--;
-                            if (othPlayer.Leben < 1)
-                                othPlayer.Position=othPlayer.movePoint= new Vector2(100,0);
+
+                        if (isOver() != -1)
+                        {//verbuendete
+                            if ( othPlayer.team == selPlayer.team)
+                            {
+                                //beide noch nicht geschossen
+                                if (
+                                selPlayer.shots == 0
+                                && othPlayer.shots == 0)
+                                {
+                                    selected = isOver();
+                                }
+                            }
+                                //gegner
+                            else if ( maus.awayFromMouse(selPlayer.Position) < rCirc.scale)
+                            {
+                                if (selPlayer.shots == selPlayer.Staerke)
+                                { selected = -1; }
+                                else
+                                {
+                                    othPlayer.Leben--;
+                                    selPlayer.shots++;
+
+                                    if (othPlayer.Leben < 1)
+                                    {
+                                        int zwispei = isOver();
+                                        teamRot[zwispei].Position = othPlayer.movePoint = new Vector2(100, 0);
+                                        GStatus.kill(teamRot[zwispei].team);
+
+                                        if (GStatus.GameOver)
+                                            Exit();
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -193,15 +242,25 @@ namespace Tabletop_0._1
             }
             //Circlestuff
             circ.update(gameTime, camera);
+            rCirc.update(gameTime, camera);
             if (isSelected())
             {
                 circ.Position = selPlayer.Position;
                 circ.scale = selPlayer.Bewegung*2.5f;
+
+                rCirc.Position = selPlayer.Position;
+                rCirc.scale = selPlayer.Reichweite;
+
             }
 
 
             table.update(camera);
             #endregion
+            if (GStatus.needToRef)
+            {
+                refresh();
+            }
+
 
             pickingSort();
             base.Update(gameTime);
@@ -220,9 +279,15 @@ namespace Tabletop_0._1
             for (int i = 0;  i < teamRot.Length; i++)
             {
                 teamRot[i].draw();
+
             }
             if (isSelected())
-                circ.draw();
+            {
+                if (GStatus.Phase == "move")
+                    circ.draw();
+                else
+                    rCirc.draw();
+            }
 
             // Gui und 2d Elemente
 
@@ -288,6 +353,14 @@ namespace Tabletop_0._1
         public bool isSelected()
         {
             return selected != -1;
+        }
+        public void refresh()
+        {
+            foreach (GameElement e in teamRot)
+            {
+                e.refresh();
+            }
+            GStatus.needToRef = false;
         }
     }
 }
